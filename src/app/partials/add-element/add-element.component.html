@@ -1,0 +1,77 @@
+<h1>Add new element</h1>
+<div class="alert alert-danger" *ngIf="error">
+  Error occured. Try sending again.
+</div>
+<form class="col-sm-6" (submit)="addElement($event)" id="form">
+  <fieldset *ngFor="let field of formFields; let j = index">
+    <div
+      class="form-group"
+      [class.required]="field.required"
+      *ngIf="field.type === 'input'"
+    >
+      <label [for]="field.fieldName" class="sr-only">
+        {{ field.fieldName }}
+      </label>
+      <input
+        type="text"
+        class="form-control"
+        [class.is-invalid]="sendingAttempt && field.required && field.value === ''"
+        placeholder="{{ field.fieldName }}"
+        [name]="field.fieldName + j"
+        [id]="'field' + j"
+        [(ngModel)]="field.value"
+      />
+    </div>
+    <div
+      class="form-group"
+      [class.required]="field.required"
+      *ngIf="field.type === 'select'"
+    >
+      <select
+        class="form-control"
+        [class.is-invalid]="sendingAttempt && field.required && field.value === ''"
+        [name]="field.fieldName + j"
+        [id]="'field' + j"
+        [(ngModel)]="field.value"
+      >
+        <option selected value="" disabled>choose {{ field.fieldName }}</option>
+        <option *ngFor="let option of field.options" [value]="option">
+          {{ option }}
+        </option>
+      </select>
+    </div>
+    <div
+      class="form-group"
+      [class.required]="field.required"
+      *ngIf="field.type === 'radio'"
+    >
+      <legend class="col-form-label">choose {{ field.fieldName }}</legend>
+      <div
+        class="form-check form-check-inline"
+        *ngFor="let option of field.options; let i = index"
+      >
+        <input
+          class="form-check-input"
+          type="radio"
+          [name]="'field' + j"
+          [id]="field.fieldName + i"
+          [value]="option"
+          [(ngModel)]="field.value"
+          [class.is-invalid]="sendingAttempt && field.required && field.value === ''"
+        />
+        <label class="form-check-label" [for]="field.fieldName + i">
+          {{ option }}
+        </label>
+      </div>
+    </div>
+    <p
+      class="text-danger field-required-info"
+      *ngIf="sendingAttempt && field.required && field.value === ''"
+    >
+      This field is required.
+    </p>
+  </fieldset>
+  <button class="btn btn-primary mb-2" [class.disabled]="sending" type="submit">Add</button>
+</form>
+
+<p class="text-primary">Required form fields are marked by blue *</p>

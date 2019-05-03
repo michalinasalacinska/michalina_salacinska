@@ -1,0 +1,13 @@
+<nav aria-label="Data grid navigation" *ngIf="pages.length > 1">
+  <ul class="pagination justify-content-end">
+    <li class="page-item" [class.disabled]="page <= 1">
+      <button class="page-link" (click)="goTo(page, -1)">Previous</button>
+    </li>
+    <li class="page-item" *ngFor="let p of pages" [class.disabled]="page == p">
+      <button class="page-link" (click)="goTo(p)">{{p}} <span class="sr-only" *ngIf="page == p">(current)</span></button>
+    </li>
+    <li class="page-item" [class.disabled]="page > pages.length - 1">
+      <button class="page-link" (click)="goTo(page, 1)">Next</button>
+    </li>
+  </ul>
+</nav>

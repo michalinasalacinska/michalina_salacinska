@@ -1,0 +1,46 @@
+<div class="row">
+  <div class="col-sm-6">
+      <sl-search (found)="getFind($event)" [slug]="slug"></sl-search>
+  </div>
+  <div class="col-sm-6 text-sm-right">
+    <a [routerLink]="[addRoute]" class="btn btn-primary mb-3">Add New</a>
+  </div>
+</div>
+
+<div class="alert alert-danger" *ngIf="message">
+  {{message}}
+</div>
+
+<table class="table table-bordered table-hover" *ngIf="elements && elements.length">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">Id</th>
+      <th scope="col">Name</th>
+      <th scope="col">Species</th>
+      <th scope="col">Gender</th>
+      <th scope="col">Homeworld</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let element of elements">
+      <th scope="row">{{element.id}}</th>
+      <td>{{element.name}}</td>
+      <td>{{element.species}}</td>
+      <td>{{element.gender}}</td>
+      <td>{{element.homeworld}}</td>
+      <td>
+        <div class="btn-group btn-group-sm" role="group" aria-label="Actions">
+          <button type="button" class="btn btn-secondary disabled" (click)="edit(element.id)">
+            <i class="fa fa-pencil" aria-hidden="true"></i> Edit
+          </button>
+          <button type="button" class="btn btn-danger" (click)="remove(element.id)">
+            <i class="fa fa-trash-o" aria-hidden="true"></i> Remove
+          </button>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<sl-pagination [page]="page" [pages]="pages" (outPage)="getPage($event)"></sl-pagination>
